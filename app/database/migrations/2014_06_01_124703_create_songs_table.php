@@ -17,8 +17,8 @@ class CreateSongsTable extends Migration {
 			$table->increments('id');
 			$table->integer('disc_id');
 			$table->string('name');
-			$table->string('cover');
-			$table->smallInteger('duration');
+			$table->string('cover')->nullable();
+			$table->smallInteger('duration')->nullable();
 		});
 	}
 

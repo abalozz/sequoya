@@ -17,7 +17,7 @@ class CreateDiscsTable extends Migration {
 			$table->increments('id');
 			$table->integer('user_id');
 			$table->string('name');
-			$table->timestamp('release_date');
+			$table->timestamp('release_date')->nullable();
 		});
 	}
 
