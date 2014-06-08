@@ -20,9 +20,28 @@ class UsersController extends BaseController {
                           'publication', 'publications'));
     }
 
+    public function showEditProfile()
+    {
+        $user = Auth::user();
+        return View::make('edit-profile', compact('user'));
+    }
+
     public function updateProfile()
     {
-        # code...
+        $user = Auth::user();
+        $data = Input::all();
+
+        if ($user->isValid($data))
+        {
+            $user->fill($data);
+            $user->save();
+
+            return Redirect::back();
+        }
+        else
+        {
+            return Redirect::back()->withInput()->withErrors($user->errors);
+        }
     }
 
     public function showFollowers($username = null)

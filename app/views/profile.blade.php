@@ -3,6 +3,11 @@
 @section('content')
   <h1>Perfil de {{ $user->name }}</h1>
   <p>
+    <a href="{{ URL::action('UsersController@showEditProfile') }}">
+      Editar perfil
+    </a>
+  </p>
+  <p>
     {{ $user->namedType }}
   </p>
   <p>

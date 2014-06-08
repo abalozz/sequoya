@@ -28,6 +28,8 @@ Route::group(array('before' => 'auth'), function()
     Route::post('search', 'UsersController@search');
     Route::get('profile/{username}', 'UsersController@showProfile');
     Route::get('me', 'UsersController@showProfile');
+    Route::get('me/edit', 'UsersController@showEditProfile');
+    Route::post('me/edit', 'UsersController@updateProfile');
     Route::post('profile/{username}/follow', 'UsersController@follow');
     Route::post('profile/{username}/unfollow', 'UsersController@unfollow');
     Route::get('profile/{username}/followers',

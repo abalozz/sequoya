@@ -118,6 +118,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return self::$types[$this->type];
     }
 
+    public function setPasswordAttribute($value)
+    {
+        if (!empty($value))
+        {
+            $this->attributes['password'] = Hash::make($value);
+        }
+    }
+
     public $errors;
 
     public function isValid($data)
@@ -126,11 +134,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
             'name' => '',
             'username' => 'required|alpha_dash|max:24|unique:users,username',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
+            'password' => 'min:6',
             'description' => 'max:255',
             'profile_image' => 'image',
             'type' => 'required|between:0,2',
         );
+
+        if ($this->exists)
+        {
+            $rules['username'] .= ',' . $this->id;
+            $rules['email'] .= ',' . $this->id;
+        }
+        else
+        {
+            $rules['password'] .= '|required';
+        }
 
         $validator = Validator::make($data, $rules);
 

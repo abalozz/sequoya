@@ -61,11 +61,9 @@ class HomeController extends BaseController {
         $data = Input::all();
 
         if ($user->isValid($data)) {
-            $data['password'] = Hash::make($data['password']);
             $user->fill($data);
             $user->save();
-            // return Redirect::action('HomeController@login')
-            //     ->withInput();
+            
             return $this->login();
         } else {
             return Redirect::action('HomeController@showSignUp')
