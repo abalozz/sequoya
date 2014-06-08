@@ -44,9 +44,78 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->hasManyThrough('Disc', 'Song');
     }
 
-    public function getNamedTypeAttribute($value)
+    public function followers()
     {
-        return self::$types[$value];
+        return $this->belongsToMany('User',
+                                    'follows',
+                                    'user_followed_id',
+                                    'user_who_follow_id');
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany('User',
+                                    'follows',
+                                    'user_who_follow_id',
+                                    'user_followed_id');
+    }
+
+    public function isFollowedBy($user)
+    {
+        return $this->followers->contains($user);
+    }
+
+    public function isFollowingTo($user)
+    {
+        return $this->following->contains($user);
+    }
+
+    public function follow($user)
+    {
+        if (!$this->isFollowingTo($user))
+        {
+            $follow = new Follow;
+            $follow->user_who_follow_id = Auth::user()->id;
+            $follow->user_followed_id = $user->id;
+            $follow->save();
+            
+            return true;
+        }
+
+        return false;
+    }
+
+    public function unfollow($user)
+    {
+        if ($this->isFollowingTo($user))
+        {
+            $follow = Follow::where('user_who_follow_id', '=', Auth::user()->id)
+                ->where('user_followed_id', '=', $user->id)->first();
+            $follow->delete();
+            
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getNameAttribute($value)
+    {
+        if (empty($value))
+        {
+            return $this->username;
+        }
+        return $value;
+    }
+
+    public function getAtUsernameAttribute()
+    {
+        return '@' . $this->username;
+    }
+
+    public function getNamedTypeAttribute()
+    {
+        return self::$types[$this->type];
     }
 
     public $errors;

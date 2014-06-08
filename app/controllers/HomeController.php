@@ -17,7 +17,13 @@ class HomeController extends BaseController {
 
     public function showIndex()
     {
-        return View::make('index');
+        $user = Auth::user();
+        $publication = new Publication;
+        $publications = Publication::fromFollowingsOf(Auth::user())
+            ->orderBy('created_at', 'desc')->get();
+
+        return View::make('index', compact('user',
+                          'publication','publications'));
     }
 
     public function showLanding()
@@ -38,7 +44,7 @@ class HomeController extends BaseController {
         {
             return Redirect::action('HomeController@showIndex');
         }
-        return Redirect::action('HomeController@showIndex')
+        return Redirect::action('HomeController@showLanding')
             ->withInput()
             ->withErrors(array('Los datos introducidos no son correctos'));
     }
@@ -58,8 +64,9 @@ class HomeController extends BaseController {
             $data['password'] = Hash::make($data['password']);
             $user->fill($data);
             $user->save();
-            return Redirect::action('HomeController@login')
-                ->withInput();
+            // return Redirect::action('HomeController@login')
+            //     ->withInput();
+            return $this->login();
         } else {
             return Redirect::action('HomeController@showSignUp')
                 ->withInput()->withErrors($user->errors);

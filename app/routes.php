@@ -24,6 +24,19 @@ Route::get('logout', 'HomeController@logout');
 Route::group(array('before' => 'auth'), function()
 {
     Route::get('index', 'HomeController@showIndex');
+    Route::get('search', 'UsersController@search');
+    Route::post('search', 'UsersController@search');
+    Route::get('profile/{username}', 'UsersController@showProfile');
+    Route::get('me', 'UsersController@showProfile');
+    Route::post('profile/{username}/follow', 'UsersController@follow');
+    Route::post('profile/{username}/unfollow', 'UsersController@unfollow');
+    Route::get('profile/{username}/followers',
+                'UsersController@showFollowers');
+    Route::get('profile/{username}/following',
+                'UsersController@showFollowing');
+    Route::get('me/followers', 'UsersController@showFollowers');
+    Route::get('me/following', 'UsersController@showFollowing');
+    Route::post('publish', 'PublicationsController@publish');
 });
 
 // Páginas de artistas o grupos con subdominio.
