@@ -14,7 +14,7 @@ class UsersController extends BaseController {
         }
 
         $publication = new Publication;
-        $publications = $user->publications;
+        $publications = $user->publications->reverse();
 
         return View::make('profile', compact('user',
                           'publication', 'publications'));
