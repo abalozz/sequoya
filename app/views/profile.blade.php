@@ -41,5 +41,28 @@
     </div>
   @endif
 
+  {{-- Discos --}}
+  <div>
+    <a href="{{ URL::action('DiscsController@showEditDiscs') }}">
+      Editar discos
+    </a>
+  </div>
+  @if ($user->discs->isEmpty())
+    <p>No tiene ningún disco</p>
+  @else
+    @foreach ($user->discs as $disc)
+      <h3>{{ $disc->name }}</h3>
+      @if ($disc->songs->isEmpty())
+        <p>El dico no tiene ninguna canción</p>
+      @else
+        <ul>
+          @foreach ($disc->songs as $song)
+            <li>{{ $song->name }} - Duración: {{ $song->duration }}s</li>
+          @endforeach
+        </ul>
+      @endif
+    @endforeach
+  @endif
+
   @include('publications')
 @stop

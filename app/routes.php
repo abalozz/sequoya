@@ -39,6 +39,11 @@ Route::group(array('before' => 'auth'), function()
     Route::get('me/followers', 'UsersController@showFollowers');
     Route::get('me/following', 'UsersController@showFollowing');
     Route::post('publish', 'PublicationsController@publish');
+    Route::get('me/discs/edit', 'DiscsController@showEditDiscs');
+    Route::post('me/discs/new', 'DiscsController@create');
+    Route::post('me/discs/update', 'DiscsController@update');
+    Route::post('me/discs/{disc}/songs/new', 'SongsController@create');
+    Route::post('me/discs/{disc}/songs/update', 'SongsController@update');
 });
 
 // Páginas de artistas o grupos con subdominio.
