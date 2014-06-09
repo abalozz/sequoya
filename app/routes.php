@@ -42,17 +42,19 @@ Route::group(array('before' => 'auth'), function()
     Route::get('me/discs/edit', 'DiscsController@showEditDiscs');
     Route::post('me/discs/new', 'DiscsController@create');
     Route::post('me/discs/update', 'DiscsController@update');
-    Route::post('me/discs/{disc}/songs/new', 'SongsController@create');
-    Route::post('me/discs/{disc}/songs/update', 'SongsController@update');
+    Route::post('me/discs/{id}/songs/new', 'SongsController@create');
+    Route::post('me/discs/{id}/songs/update', 'SongsController@update');
+    Route::get('me/page/edit', 'PagesController@showEditPage');
+    Route::post('me/page/create', 'PagesController@create');
+    Route::post('me/page/update', 'PagesController@update');
 });
 
 // Páginas de artistas o grupos con subdominio.
-// Route::group(array('domain' => '{account}.myapp.com'), function()
-// {
+Route::group(array('domain' => '{subdomain}.*'), function()
+{
 
-//     Route::get('page/{id}', function($account, $id)
-//     {
-//         //
-//     });
+    Route::get('/', 'PagesController@showPage');
 
-// });
+});
+Route::get('/page/{subdomain}', 'PagesController@showPage');
+

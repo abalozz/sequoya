@@ -23,6 +23,15 @@
       Siguiendo
     </a></li>
   </ul>
+
+  @if (Auth::user() == $user && $user->type != 0)
+    <div>
+      <a href="{{ URL::action('PagesController@showEditPage') }}">
+        Editar página personalizada
+      </a>
+    </div>
+  @endif
+
   @if (Auth::user() != $user)
     <div>
       @if ($user->isFollowedBy(Auth::user()))
@@ -42,11 +51,13 @@
   @endif
 
   {{-- Discos --}}
+  @if (Auth::user() == $user)
   <div>
     <a href="{{ URL::action('DiscsController@showEditDiscs') }}">
       Editar discos
     </a>
   </div>
+  @endif
   @if ($user->discs->isEmpty())
     <p>No tiene ningún disco</p>
   @else
