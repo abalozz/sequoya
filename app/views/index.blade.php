@@ -1,7 +1,12 @@
 @extends('layout')
 
 @section('content')
-  <h1>Inicio</h1>
 
-  @include('publications')
+  <div class="large-3 columns">
+      <h2>Perfil</h2>
+  </div>
+
+  <div class="large-9 columns">
+    @include('publications')
+  </div>
 @stop

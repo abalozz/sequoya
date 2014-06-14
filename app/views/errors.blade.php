@@ -1,10 +1,8 @@
-  @if ($errors->any())
-    <div>
-      <p>Hay algunos errores en el formulario</p>
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
+@if ($errors->any())
+  @foreach ($errors->all() as $error)
+    <div class="alert-box alert" data-alert>
+      {{ $error }}
+      <a href="#" class="close">&times;</a>
     </div>
-  @endif
+  @endforeach
+@endif
