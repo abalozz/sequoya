@@ -5,3 +5,40 @@
 .top-bar input {
     height: 2.2em;
 }
+
+.login {
+    margin-top: 1em;
+}
+
+.logo {
+    width: 64px;
+}
+
+.landing-row {
+    margin-bottom: 3em;
+    margin-top: 2em;
+}
+
+.landing-image {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.landing-text {
+    margin-top: 2em;
+    font-size: 2.5em;
+}
+
+@media only screen and (min-width: 40.063em) and (max-width: 64em) {
+    .landing-text {
+        margin-top: 2em;
+        font-size: 1.8em;
+    }
+}
+
+@media only screen and (max-width: 40em) {
+    .landing-text {
+        margin-top: 2em;
+        font-size: 1.5em;
+    }
+}
