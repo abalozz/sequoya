@@ -31,11 +31,8 @@ class UsersController extends BaseController {
         $user = Auth::user();
         $data = Input::all();
 
-        if ($user->isValid($data))
+        if ($user->validAndSave($data))
         {
-            $user->fill($data);
-            $user->save();
-
             return Redirect::back();
         }
         else

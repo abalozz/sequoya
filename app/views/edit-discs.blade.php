@@ -31,7 +31,7 @@
             <tbody>
             @foreach ($disc->songs as $song)
               <tr>
-                <td>0</td>
+                <td>{{ $song->number }}</td>
                 <td>{{ $song->name }}</td>
                 <td>{{ $song->duration }} s</td>
               </tr>
@@ -43,7 +43,8 @@
 
       {{ Form::model($new_song,
         array('action' => array('SongsController@create', $disc->id),
-              'method' => 'post')) }}
+              'method' => 'post',
+              'files' => true)) }}
         
         <div class="large-7 columns">
           {{ Form::text('name', null,
@@ -66,6 +67,7 @@
   {{ Form::model($new_disc,
     array('action' => 'DiscsController@create',
                       'method' => 'post',
+                      'files' => true,
                       'class' => 'columns')) }}
     
     <div class="row">

@@ -29,7 +29,6 @@
     <section class="top-bar-section">
       <ul class="left">
         <li>
-          <!-- <a href="{{ URL::action('HomeController@showIndex') }}">Inicio</a> -->
           {{ link_to_action('HomeController@showIndex', 'Inicio') }}
         </li>
         <li><a href="#">Descubre</a></li>

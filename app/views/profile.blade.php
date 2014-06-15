@@ -1,79 +1,103 @@
 @extends('layout')
 
 @section('content')
-  <h1>Perfil de {{ $user->name }}</h1>
-  <p>
-    <a href="{{ URL::action('UsersController@showEditProfile') }}">
-      Editar perfil
-    </a>
-  </p>
-  <p>
-    {{ $user->namedType }}
-  </p>
-  <p>
-    {{ $user->description }}
-  </p>
-  <ul>
-    <li><a href="{{ URL::action('UsersController@showFollowers',
-      array($user->username)) }}">
-      Seguidores
-    </a></li>
-    <li><a href="{{ URL::action('UsersController@showFollowing',
-      array($user->username)) }}">
-      Siguiendo
-    </a></li>
-  </ul>
+  <h2 class="columns">Perfil de {{ $user->name }}</h2>
 
-  @if (Auth::user() == $user && $user->type != 0)
-    <div>
-      <a href="{{ URL::action('PagesController@showEditPage') }}">
-        Editar página personalizada
-      </a>
-    </div>
-  @endif
-
-  @if (Auth::user() != $user)
-    <div>
-      @if ($user->isFollowedBy(Auth::user()))
-        {{ Form::open(array('action' => array('UsersController@unfollow',
-                                              $user->username),
-                            'method' => 'post')) }}
-          {{ Form::submit('Dejar de seguir') }}
-        {{ Form::close() }}
-      @else
-        {{ Form::open(array('action' => array('UsersController@follow',
-                                              $user->username),
-                            'method' => 'post')) }}
-          {{ Form::submit('Seguir') }}
-        {{ Form::close() }}
+  <div class="large-3 columns">
+    <div class="panel">
+      <img
+        src="{{ $user->profile_image_url }}"
+        alt="Imagen de perfil">
+      <ul class="no-bullet">
+        <li>{{ $user->name }} <small>{{ $user->atUsername }}</small></li>
+        <li>{{ $user->namedType }}</li>
+        <li>{{ $user->description }}</li>
+        <li>{{ link_to_action('UsersController@showFollowers', 'Seguidores', $user->username) }}</li>
+        <li>{{ link_to_action('UsersController@showFollowing', 'Siguiendo', $user->username) }}</li>
+      </ul>
+      @if (Auth::user()->id != $user->id)
+        <p>
+          @if ($user->isFollowedBy(Auth::user()))
+            {{ Form::open(array('action' => array('UsersController@unfollow',
+                                                  $user->username),
+                                'method' => 'post')) }}
+              {{ Form::submit('Dejar de seguir',
+                array('class' => 'button radius expand alert')) }}
+            {{ Form::close() }}
+          @else
+            {{ Form::open(array('action' => array('UsersController@follow',
+                                                  $user->username),
+                                'method' => 'post')) }}
+              {{ Form::submit('Seguir',
+                array('class' => 'button radius expand success')) }}
+            {{ Form::close() }}
+          @endif
+        </p>
       @endif
     </div>
-  @endif
 
-  {{-- Discos --}}
-  @if (Auth::user() == $user)
-  <div>
-    <a href="{{ URL::action('DiscsController@showEditDiscs') }}">
-      Editar discos
-    </a>
-  </div>
-  @endif
-  @if ($user->discs->isEmpty())
-    <p>No tiene ningún disco</p>
-  @else
-    @foreach ($user->discs as $disc)
-      <h3>{{ $disc->name }}</h3>
-      @if ($disc->songs->isEmpty())
-        <p>El dico no tiene ninguna canción</p>
-      @else
-        <ul>
-          @foreach ($disc->songs as $song)
-            <li>{{ $song->name }} - Duración: {{ $song->duration }}s</li>
-          @endforeach
+    @if (Auth::user()->id == $user->id)
+      <div class="panel">
+        <ul class="no-bullet">
+          <li>
+            <a href="{{ URL::action('UsersController@showEditProfile') }}">
+              Editar perfil
+            </a>
+          </li>
+          <li>
+            <a href="{{ URL::action('DiscsController@showEditDiscs') }}">
+              Editar discos
+            </a>
+          </li>
+          @if ($user->type != 0)
+            <li>
+              <a href="{{ URL::action('PagesController@showEditPage') }}">
+                Editar página personalizada
+              </a>
+            </li>
+          @endif
         </ul>
-      @endif
-    @endforeach
-  @endif
+      </div>
+    @endif
+  </div>
+  
+  <div class="large-9 columns">
+    {{-- Discos --}}
+    @if ($user->discs->isEmpty())
+      <p>No tiene ningún disco</p>
+    @else
+      @foreach ($user->discs as $disc)
+        <h3 class="medium-9">{{ $disc->name }}</h3>
+        <div class="medium-3">
+          <img src="{{ $disc->cover_url }}">
+        </div>
+        @if ($disc->songs->isEmpty())
+          <p>El disco no tiene canciones</p>
+        @else
+          <table class="small-12">
+            <thead>
+              <tr>
+                <th width="35">Nº</th>
+                <th>Nombre</th>
+                <th>Duración</th>
+                <th>Controles</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($disc->songs as $song)
+                <tr>
+                  <td>{{ $song->number }}</td>
+                  <td>{{ $song->name }}</td>
+                  <td>{{ $song->duration }} s</td>
+                  <td>Play | Pause</td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        @endif
+      @endforeach
+    @endif
 
-  @include('publications')
+    @include('publications')
+  </div>
 @stop

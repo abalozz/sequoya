@@ -15,6 +15,18 @@ class Disc extends Eloquent {
         return $this->hasMany('Song');
     }
 
+    public function getCoverUrlAttribute()
+    {
+        if ($this->cover)
+        {
+            return asset('uploads/cover-images/' . $this->cover);
+        }
+        else
+        {
+            return asset('img/default-cover-image.png');
+        }
+    }
+
     public $errors;
 
     public function isValid($data)
@@ -42,8 +54,25 @@ class Disc extends Eloquent {
     {
         if ($this->isValid($data))
         {
+            if (empty($data['cover']))
+            {
+                unset($data['cover']);
+            }
+            else
+            {
+                $cover = $data['cover'];
+                $cover_name = sha1(
+                    $this->id . microtime() .
+                    $cover->getClientOriginalName()
+                    ) . '.' . $cover->getClientOriginalExtension();
+            }
+
             $this->fill($data);
-            $this->save();
+
+            if ($this->save() && isset($cover))
+            {
+                $cover->move('public/uploads/cover-images', $cover_name);
+            }
             
             return true;
         }

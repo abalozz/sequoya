@@ -8,6 +8,7 @@
   {{ Form::model($user,
     array('action' => 'UsersController@updateProfile',
           'method' => 'post',
+          'files' => true,
           'class' => 'columns')) }}
     
     <div class="row">

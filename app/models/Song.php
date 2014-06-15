@@ -2,7 +2,8 @@
 
 class Song extends Eloquent {
 
-    protected $fillable = array('disc_id', 'name', 'duration');
+    protected $fillable = array('disc_id', 'name', 'duration',
+                                'track', 'number');
     public $timestamps = false;
 
     public function disc()
@@ -13,6 +14,16 @@ class Song extends Eloquent {
     public function user()
     {
         return $this->belongsTo('Disc', 'User');
+    }
+
+    public function getTrackUrlAttribute()
+    {
+        if ($this->track)
+        {
+            return asset('uploads/songs/' . $this->track);
+        }
+
+        return null;
     }
 
     public $errors;
@@ -41,8 +52,25 @@ class Song extends Eloquent {
     {
         if ($this->isValid($data))
         {
+            if (empty($data['track']))
+            {
+                unset($data['track']);
+            }
+            else
+            {
+                $track = $data['track'];
+                $track_name = sha1(
+                    $this->id . microtime() .
+                    $track->getClientOriginalName()
+                    ) . '.' . $track->getClientOriginalExtension();
+            }
+
             $this->fill($data);
-            $this->save();
+
+            if ($this->save() && isset($track))
+            {
+                $track->move('public/uploads/songs', $track_name);
+            }
             
             return true;
         }

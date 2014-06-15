@@ -123,6 +123,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return self::$types[$this->type];
     }
 
+    public function getProfileImageUrlAttribute()
+    {
+        if ($this->profile_image)
+        {
+            return asset('uploads/profile-images/' . $this->profile_image);
+        }
+        else
+        {
+            return asset('img/default-profile-image.png');
+        }
+    }
+
     public function setPasswordAttribute($value)
     {
         if (!empty($value))
@@ -163,6 +175,38 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         }
 
         $this->errors = $validator->errors();
+
+        return false;
+    }
+
+    public function validAndSave($data)
+    {
+        if ($this->isValid($data))
+        {
+            if (empty($data['profile_image']))
+            {
+                unset($data['profile_image']);
+            }
+            else
+            {
+                $profile_image = $data['profile_image'];
+                $profile_image_name = sha1(
+                    $this->id . microtime() .
+                    $profile_image->getClientOriginalName()
+                    ) . '.' . $profile_image->getClientOriginalExtension();
+                $data['profile_image'] = $profile_image_name;
+            }
+
+            $this->fill($data);
+            
+            if ($this->save() && isset($profile_image))
+            {
+                $profile_image->move('public/uploads/profile-images',
+                                     $profile_image_name);
+            }
+
+            return true;
+        }
 
         return false;
     }
