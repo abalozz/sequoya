@@ -5,6 +5,69 @@
     <h1 class="text-center">Registro</h1>
   </div>
 
+  <div class="row" data-equalizer>
+    <div class="medium-4 columns">
+      <ul class="pricing-table" data-equalizer-watch>
+        <li class="title">Suscripción Gratuita</li>
+        <li class="price">0€</li>
+        <li class="description">
+          Distribuye tu música de forma gratuita o descubre nuevos artistas.
+          La opción ideal si eres un usuario común o quieres autopromocionarte.
+        </li>
+        <li class="bullet-item">
+          Infinitos discos gratuitos
+        </li>
+        <li class="cta-button">
+          <label class="button pay-method" for="suscription1">Seleccionar</label>
+        </li>
+      </ul>
+    </div>
+    <div class="medium-4 columns">
+      <ul class="pricing-table" data-equalizer-watch>
+        <li class="title">Maqueta</li>
+        <li class="price">4,99€/disco</li>
+        <li class="description">
+          Obtén ganancias distribuyendo tu música a través de las principales
+          plataformas de streaming* de música.
+        </li>
+        <li class="bullet-item">
+          Infinitos discos gratuitos
+        </li>
+        <li class="bullet-item">
+          *Stopify, AiTuns, Deecer, Pandera, LostFM
+        </li>
+        <li class="bullet-item">
+          40% de interés por venta
+        </li>
+        <li class="cta-button">
+          <label class="button pay-method" for="suscription2">Seleccionar</label>
+        </li>
+      </ul>
+    </div>
+    <div class="medium-4 columns">
+      <ul class="pricing-table" data-equalizer-watch>
+        <li class="title">Profesional</li>
+        <li class="price">79,99€/mes</li>
+        <li class="description">
+          Obtén ganancias distribuyendo tu música a través de las principales
+          plataformas de streaming* de música.
+        </li>
+        <li class="bullet-item">
+          Infinitos discos gratuitos
+        </li>
+        <li class="bullet-item">
+          *Stopify, AiTuns, Deecer, Pandera, LostFM
+        </li>
+        <li class="bullet-item">
+          5% de interés por venta
+        </li>
+        <li class="cta-button">
+          <label class="button pay-method" for="suscription3">Seleccionar</label>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   {{ Form::model($user, array('action' => 'HomeController@signUp',
                               'method' => 'post')) }}
 
@@ -53,6 +116,15 @@
       <div class="medium-6 large-5 small-centered columns text-center">
         {{ link_to_action('HomeController@showLanding', 'Inicia sesión') }}
       </div>
+    </div>
+
+    <div class="hide">
+      {{ Form::radio('suscription', '0', true,
+        array('id' => 'suscription1')) }}
+      {{ Form::radio('suscription', '1', false,
+        array('id' => 'suscription2')) }}
+      {{ Form::radio('suscription', '2', false,
+        array('id' => 'suscription3')) }}
     </div>
 
   {{ Form::close() }}

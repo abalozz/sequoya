@@ -31,7 +31,7 @@ function playAudioEvents () {
             if (Sequoya.playing) {
                 document.getElementById('song' + Sequoya.playing).pause();
             }
-            
+
             Sequoya.playing = e.target.dataset.song;
             document.getElementById('song' + e.target.dataset.song).play();
         });
@@ -48,11 +48,29 @@ function pauseAudioEvents () {
     }
 }
 
+function selectPayMethodEvents () {
+    var buttons = document.querySelectorAll('.pay-method');
+    var i = buttons.length;
+    while (i--) {
+        buttons[i].addEventListener('click', function (e) {
+            var buttons = document.querySelectorAll('.pay-method');
+            var i = buttons.length;
+            while (i--) {
+                buttons[i].parentNode.parentNode.style.borderColor = null;
+                buttons[i].parentNode.parentNode.style.boxShadow = null;
+            }
+            e.target.parentNode.parentNode.style.borderColor = '#333';
+            e.target.parentNode.parentNode.style.boxShadow = '0 0 0 1px #333';
+        });
+    }
+}
+
 
 // Cuando el contenido del DOM ha cargado...
 document.addEventListener('DOMContentLoaded', function(){
 
     playAudioEvents();
     pauseAudioEvents();
+    selectPayMethodEvents();
 
 });
