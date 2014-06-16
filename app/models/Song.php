@@ -63,6 +63,7 @@ class Song extends Eloquent {
                     $this->id . microtime() .
                     $track->getClientOriginalName()
                     ) . '.' . $track->getClientOriginalExtension();
+                $data['track'] = $track_name;
             }
 
             $this->fill($data);

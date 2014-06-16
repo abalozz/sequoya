@@ -89,7 +89,19 @@
                   <td>{{ $song->number }}</td>
                   <td>{{ $song->name }}</td>
                   <td>{{ $song->duration }} s</td>
-                  <td>Play | Pause</td>
+                  <td>
+                    @if ($song->track)
+                      <audio src="{{ $song->track_url }}"
+                        id="song{{ $song->id }}"></audio>
+                      <span data-song="{{ $song->id }}" class="play">
+                        Play
+                      </span>
+                      |
+                      <span data-song="{{ $song->id }}" class="pause">
+                        Pause
+                      </span>
+                    @endif
+                  </td>
                 </tr>
               @endforeach
             </tbody>

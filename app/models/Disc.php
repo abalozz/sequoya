@@ -65,6 +65,7 @@ class Disc extends Eloquent {
                     $this->id . microtime() .
                     $cover->getClientOriginalName()
                     ) . '.' . $cover->getClientOriginalExtension();
+                $data['cover'] = $cover_name;
             }
 
             $this->fill($data);

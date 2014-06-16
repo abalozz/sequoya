@@ -46,17 +46,28 @@
               'method' => 'post',
               'files' => true)) }}
         
-        <div class="large-7 columns">
+        <div class="large-1 columns">
+          {{ Form::text('number', null,
+            array('placeholder' => 'Nº')) }}
+        </div>
+        <div class="large-6 columns">
           {{ Form::text('name', null,
             array('placeholder' => 'Nombre de la canción')) }}
         </div>
         <div class="large-3 columns">
           {{ Form::text('duration', null,
-            array('placeholder' => 'Duración (en segundos)')) }}
+            array('placeholder' => 'Duración (segundos)')) }}
         </div>
         <div class="large-2 columns">
           {{ Form::submit('Enviar nueva canción',
             array('class' => 'button radius tiny expand')) }}
+        </div>
+        <div class="small-2 columns">
+          {{ Form::label('track', 'Archivo de audio',
+            array('class' => 'inline')) }}
+        </div>
+        <div class="small-10 columns">
+          {{ Form::file('track') }}
         </div>
 
       {{ Form::close() }}
