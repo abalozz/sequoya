@@ -17,6 +17,8 @@
   @else
     @foreach ($publications as $publication)
       <article class="panel">
+        <img src="{{ $publication->user->profile_image_url }}"
+          class="left avatar" width="64">
         <h4>
           {{ $publication->user->name }}
           <small>a las {{ $publication->created_at }}</small>

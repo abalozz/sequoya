@@ -31,7 +31,9 @@
         <li>
           {{ link_to_action('HomeController@showIndex', 'Inicio') }}
         </li>
-        <li><a href="#">Descubre</a></li>
+        <li>
+          {{ link_to_action('UsersController@showDiscover', 'Descubre') }}
+        </li>
         <li class="has-form">
           {{ Form::open(array('action' => 'UsersController@search',
                               'method' => 'post',

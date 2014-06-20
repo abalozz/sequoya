@@ -36,6 +36,11 @@
     width: 100%;
 }
 
+.avatar {
+    margin-right: 0.5em;
+    width: 64px;
+}
+
 @media only screen and (min-width: 40.063em) and (max-width: 64em) {
     .landing-text {
         margin-top: 2em;

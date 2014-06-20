@@ -110,4 +110,17 @@ class UsersController extends BaseController {
                           compact('users', 'title', 'empty_message', 'search'));
     }
 
+    public function showDiscover()
+    {
+        $users = User::all();
+        $count = $users->count();
+        $users = $users->random(($count >= 8) ? 8 : $count);
+        shuffle($users);
+        $users = new Illuminate\Support\Collection($users);
+
+        $title = 'Descubre';
+
+        return View::make('user-list', compact('users', 'title'));
+    }
+
 }

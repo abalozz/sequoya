@@ -26,6 +26,7 @@ Route::group(array('before' => 'auth'), function()
     Route::get('index', 'HomeController@showIndex');
     Route::get('search', 'UsersController@search');
     Route::post('search', 'UsersController@search');
+    Route::get('discover', 'UsersController@showDiscover');
     Route::get('profile/{username}', 'UsersController@showProfile');
     Route::get('me', 'UsersController@showProfile');
     Route::get('me/edit', 'UsersController@showEditProfile');
