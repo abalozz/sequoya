@@ -14,26 +14,51 @@ else
 
 @section('content')
 
-  <h1>Editar página personalizada</h1>
+  <h1 class="columns">Editar página personalizada</h1>
 
-  {{ Form::model($page, array('action' => $action, 'method' => 'post')) }}
+  {{ Form::model($page, array('action' => $action,
+                              'method' => 'post',
+                              'class' => 'columns',
+                              'files' => true)) }}
 
-    {{ Form::label('subdomain', 'Subdominio') }}
-    {{ Form::text('subdomain') }}
+    <div class="row collapse">
+      {{ Form::label('subdomain', 'Subdominio') }}
+      <div class="small-7 medium-10 columns">
+        {{ Form::text('subdomain') }}
+      </div>
+      <div class="small-5 medium-2 columns">
+        <span class="postfix">.sequoya.music</span>
+      </div>
+    </div>
 
-    {{ Form::label('header_image', 'Imagen de cabecera') }}
-    {{ Form::file('header_image') }}
+    <div class="row collapse">
+      {{ Form::label('header_image', 'Imagen de cabecera') }}
+      {{ Form::file('header_image') }}
+    </div>
 
-    {{ Form::label('background_color', 'Color de fondo') }}
-    {{ Form::file('background_color') }}
+    <div class="row">
+      <div class="medium-4 columns">
+        {{ Form::label('background_color', 'Color de fondo') }}
+        {{ Form::text('background_color') }}
+      </div>
 
-    {{ Form::label('font_color', 'Color de fuente') }}
-    {{ Form::file('font_color') }}
+      <div class="medium-4 columns">
+        {{ Form::label('font_color', 'Color de fuente') }}
+        {{ Form::text('font_color') }}
+      </div>
 
-    {{ Form::label('link_color', 'Color de enlaces') }}
-    {{ Form::file('link_color') }}
+      <div class="medium-4 columns">
+        {{ Form::label('link_color', 'Color de enlaces') }}
+        {{ Form::text('link_color') }}
+      </div>
+    </div>
 
-    {{ Form::submit('Guardar') }}
+    <div class="row">
+      <div class="columns">
+        {{ Form::submit('Guardar',
+          array('class' => 'button expand radius')) }}
+      </div>
+    </div>
 
   {{ Form::close() }}
 

@@ -12,12 +12,22 @@ class Page extends Eloquent {
         return $this->belongsTo('User');
     }
 
+    public function getHeaderImageUrlAttribute()
+    {
+        if ($this->header_image)
+        {
+            return asset('uploads/header-images/' . $this->header_image);
+        }
+
+        return null;
+    }
+
     public $errors;
 
     public function isValid($data)
     {
         $rules = array(
-            'user_id'     => 'required|integer|unique:pages,user_id',
+            'user_id'     => 'integer|unique:pages,user_id',
             'subdomain' => 'required|alpha_dash',
             'header_image' => '',
             'background_color'  => '',
@@ -26,6 +36,11 @@ class Page extends Eloquent {
         );
         
         $validator = Validator::make($data, $rules);
+
+        if ($this->exists)
+        {
+            $rules['user_id'] .= ',' . $this->id;
+        }
         
         if ($validator->passes())
         {
@@ -41,12 +56,31 @@ class Page extends Eloquent {
     {
         if ($this->isValid($data))
         {
+            if (empty($data['header_image']))
+            {
+                unset($data['header_image']);
+            }
+            else
+            {
+                $header_image = $data['header_image'];
+                $header_image_name = sha1(
+                    $this->id . microtime() .
+                    $header_image->getClientOriginalName()
+                    ) . '.' . $header_image->getClientOriginalExtension();
+                $data['header_image'] = $header_image_name;
+            }
+
             $this->fill($data);
-            $this->save();
             
+            if ($this->save() && isset($header_image))
+            {
+                $header_image->move('public/uploads/header-images',
+                                     $header_image_name);
+            }
+
             return true;
         }
-        
+
         return false;
     }
 
